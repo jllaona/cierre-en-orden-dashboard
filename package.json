@@ -4,11 +4,11 @@
   "version": "1.0.0",
   "type": "module",
   "scripts": {
-    "dev": "concurrently -n srv,web -c cyan,green \"node --watch server/index.js\" \"vite\"",
+    "dev": "npx concurrently -n srv,web -c cyan,green \"node --watch server/index.js\" \"npx vite\"",
     "dev:server": "node --watch server/index.js",
-    "dev:client": "vite",
-    "build": "vite build",
-    "preview": "vite preview",
+    "dev:client": "npx vite",
+    "build": "npx vite build",
+    "preview": "npx vite preview",
     "start": "node server/index.js"
   },
   "dependencies": {
