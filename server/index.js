@@ -6,6 +6,18 @@ import dotenv from 'dotenv';
 dotenv.config();
 
 const app = express();
+
+app.get('/debug', (req, res) => {
+  const raw = process.env.GOOGLE_SERVICE_ACCOUNT_JSON || 'NO EXISTE';
+  res.json({
+    length: raw.length,
+    first100: raw.substring(0, 100),
+    hasLiteralBackslashN: raw.includes('\\\\n'),
+    hasRealNewline: raw.includes('\\n'),
+    startsWithBrace: raw.startsWith('{')
+  });
+});
+
 const PORT = process.env.PORT || 3002;
 
 app.use(cors());
