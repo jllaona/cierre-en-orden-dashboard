@@ -5,6 +5,20 @@ import dotenv from 'dotenv';
 
 dotenv.config();
 
+let credentials;
+try {
+  const raw = process.env.GOOGLE_SERVICE_ACCOUNT_JSON;
+  credentials = JSON.parse(raw);
+} catch (e) {
+  try {
+    const escaped = process.env.GOOGLE_SERVICE_ACCOUNT_JSON.replace(/\n/g, '\\n');
+    credentials = JSON.parse(escaped);
+  } catch (e2) {
+    console.error('Error parsing credentials:', e2);
+    process.exit(1);
+  }
+}
+
 const app = express();
 
 app.get('/debug', (req, res) => {
@@ -24,10 +38,6 @@ app.use(cors());
 app.use(express.json());
 
 function createSheetsClient() {
-  const raw = process.env.GOOGLE_SERVICE_ACCOUNT_JSON;
-  if (!raw) throw new Error('GOOGLE_SERVICE_ACCOUNT_JSON no está definido en .env');
-
-  const credentials = JSON.parse(raw.replace(/\\n/g, '\n'));
   const auth = new google.auth.GoogleAuth({
     credentials,
     scopes: ['https://www.googleapis.com/auth/spreadsheets.readonly'],
