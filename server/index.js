@@ -15,7 +15,7 @@ function createSheetsClient() {
   const raw = process.env.GOOGLE_SERVICE_ACCOUNT_JSON;
   if (!raw) throw new Error('GOOGLE_SERVICE_ACCOUNT_JSON no está definido en .env');
 
-  const credentials = JSON.parse(raw);
+  const credentials = JSON.parse(raw.replace(/\\n/g, '\n'));
   const auth = new google.auth.GoogleAuth({
     credentials,
     scopes: ['https://www.googleapis.com/auth/spreadsheets.readonly'],
